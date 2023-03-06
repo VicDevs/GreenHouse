@@ -81,6 +81,7 @@ API da aplicação de controle de tarefas domésticas.
  | nome | texto | sim | o nome do usuário
  | senha | texto | sim | a senha do usuário
  | experiencia | inteiro | a experiencia do usuário para o ranking
+ | level | inteiro | sim | O level do usuário
  
   **Exemplo de corpo de requisição**
   
@@ -89,7 +90,8 @@ API da aplicação de controle de tarefas domésticas.
     user_id: 1,
     nome: 'Victor Hugo',
     senha: 'senha123',
-    xp: 1000
+    xp: 1000,
+    level: 10
   }
   ```
   
@@ -115,7 +117,8 @@ API da aplicação de controle de tarefas domésticas.
   {
     user_id: 1,
     nome: 'Victor Hugo',
-    xp: 1000
+    xp: 1000,
+    level: 10
   }
   ```
   
