@@ -7,7 +7,7 @@ API da aplicação de controle de tarefas domésticas.
 - Tarefas
   - [Cadastrar Tarefa](#cadastrar-tarefa)
   - Alterar tarefa
-  - Listar tarefas
+  - [Listar tarefa](#listar-tarefa)
   - Apagar tarefa
   
 - Usuário
@@ -46,7 +46,7 @@ API da aplicação de controle de tarefas domésticas.
  
  ---
  
- ### Detalhar Tarefa
+ ### Listar Tarefa
  `GET` /greenhouse/api/tarefa/{id}
  
  **Respostas**
