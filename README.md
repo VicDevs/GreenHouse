@@ -46,7 +46,7 @@ API da aplicação de controle de tarefas domésticas.
  
  ---
  
- ### Detalhar despesa
+ ### Detalhar Tarefa
  `GET` /greenhouse/api/tarefa/{id}
  
  **Respostas**
