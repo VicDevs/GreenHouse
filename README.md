@@ -169,11 +169,10 @@ API da aplicação de controle de tarefas domésticas.
  
  ```js
   {
-    poder_id : 1
     tipo : {
       tipo_id : 1,
       nome : 'fire'
-    },
+      },
     descricao : 'Queime uma tarefa e deixe que alguem faça por você',
     elementos : 20  
   }
