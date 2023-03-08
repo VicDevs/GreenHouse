@@ -125,6 +125,7 @@ API da aplicação de controle de tarefas domésticas.
   {
     user_id: 1,
     nome: 'Victor Hugo',
+    senha : 'senha123'
     xp: 1000,
     level: 10
   }
