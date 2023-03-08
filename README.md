@@ -13,10 +13,14 @@ API da aplicação de controle de tarefas domésticas.
 - Usuário
   - [Cadastrar Usuário](#cadastrar-usuário)
   - [Listar Usuários](#listar-usuários)
+  - Editar usuário
+  - Apagar usuário
   
 - Poder
   - [Listar Poderes](#listar-poderes)
   - [Cadastrar Poder](#cadastrar-poderes)
+  - Alterar poder
+  - Deletar poder
   
   
 ### Cadastrar Tarefa
