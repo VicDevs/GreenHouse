@@ -12,10 +12,11 @@ API da aplicação de controle de tarefas domésticas.
   
 - Usuário
   - [Cadastrar Usuário](#cadastrar-usuário)
+  - [Listar Usuários](#listar-usuários)
   
 - Loja
-  - [Listar Poderes](#Listar-Poderes)
-  - [Cadastrar Poder](#Cadastrar-Poder)
+  - [Listar Poderes](#listar-poderes)
+  - [Cadastrar Poder](#cadastrar-poderes)
   
   
 ### Cadastrar Tarefa
@@ -107,6 +108,7 @@ API da aplicação de controle de tarefas domésticas.
   |400| A validação dos campos falhou
   
   ---
+  ### Listar Usuários
   
   `GET` /greenhouse/api/usuario/{id}
   
@@ -136,7 +138,7 @@ API da aplicação de controle de tarefas domésticas.
   
  | campo | tipo | obrigatório | descrição
  |-------|------|:-------------:|----
- | tipo | String |não | Tipo de poder da loja.
+ | tipo | inteiro | sim | Tipo de poder da loja.
  | descricao | String | sim | Descrição do poder da loja.
  | elementos | Inteiro | sim |Custo do poder na loja.
  
@@ -144,7 +146,7 @@ API da aplicação de controle de tarefas domésticas.
  
  ```js
   {
-    tipo : 'fire',
+    tipo_id : 1,
     descricao : 'Queime uma tarefa e deixe que alguem faça por você',
     elementos : 20  
   }
@@ -167,7 +169,11 @@ API da aplicação de controle de tarefas domésticas.
  
  ```js
   {
-    tipo : 'fire',
+    poder_id : 1
+    tipo : {
+      tipo_id : 1,
+      nome : 'fire'
+    },
     descricao : 'Queime uma tarefa e deixe que alguem faça por você',
     elementos : 20  
   }
