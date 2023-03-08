@@ -138,7 +138,6 @@ API da aplicação de controle de tarefas domésticas.
   
  | campo | tipo | obrigatório | descrição
  |-------|------|:-------------:|----
- | poder_id | inteiro | sim | identificador do poder.
  | tipo | inteiro | sim | Tipo de poder da loja.
  | descricao | String | sim | Descrição do poder da loja.
  | elementos | Inteiro | sim |Custo do poder na loja.
@@ -147,7 +146,6 @@ API da aplicação de controle de tarefas domésticas.
  
  ```js
   {
-    poder_id : 1
     tipo_id : 1,
     descricao : 'Queime uma tarefa e deixe que alguem faça por você',
     elementos : 20  
