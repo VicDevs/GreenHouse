@@ -15,7 +15,7 @@ API da aplicação de controle de tarefas domésticas.
   
 - Loja
   - [Listar Poderes](#Listar-Poderes)
-  - [Cadastrar Poder]()
+  - [Cadastrar Poder](#Cadastrar-Poder)
   
   
 ### Cadastrar Tarefa
