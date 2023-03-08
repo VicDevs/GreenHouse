@@ -13,6 +13,10 @@ API da aplicação de controle de tarefas domésticas.
 - Usuário
   - [Cadastrar Usuário](#cadastrar-usuário)
   
+- Loja
+  - [Listar Poderes](#Listar-Poderes)
+  - [Cadastrar Poder]()
+  
   
 ### Cadastrar Tarefa
 `POST` /greenhouse/api/tarefa
@@ -39,7 +43,7 @@ API da aplicação de controle de tarefas domésticas.
  
  **Respostas**
  
- | código | descrição
+| código | descrição
 |-|-
 |201| Tarefa cadastrada com sucesso
 |400| a validação falhou
@@ -100,7 +104,7 @@ API da aplicação de controle de tarefas domésticas.
   | código | descrição
   |-|-
   |201| Usuário cadastrado com sucesso
-  |400| a validação dos campos falhou
+  |400| A validação dos campos falhou
   
   ---
   
@@ -113,6 +117,8 @@ API da aplicação de controle de tarefas domésticas.
 |200| os dados do usuário retornaram no corpo da resposta
 |404| id do usuário não existe
   
+ **Exemplo de corpo de requisição**
+  
  ```js
   {
     user_id: 1,
@@ -122,3 +128,47 @@ API da aplicação de controle de tarefas domésticas.
   }
   ```
   
+  ---
+  
+  ### Cadastrar Poderes
+  
+  `POST` /greenhouse/api/power
+  
+ | campo | tipo | obrigatório | descrição
+ |-------|------|:-------------:|----
+ | tipo | String |não | Tipo de poder da loja.
+ | descricao | String | sim | Descrição do poder da loja.
+ | elementos | Inteiro | sim |Custo do poder na loja.
+ 
+ **Exemplo de corpo de requisição**
+ 
+ ```js
+  {
+    tipo : 'fire',
+    descricao : 'Queime uma tarefa e deixe que alguem faça por você',
+    elementos : 20  
+  }
+  ```
+  
+  ---
+  
+ ### Listar Poderes
+
+`GET` /greenhouse/api/power/{id}
+
+**Respostas**
+ 
+ | código | descrição
+ |-|-
+ |200| Dados da tarefa retorna no corpo da resposta.
+ |404| Não existe poder com o id informado.
+ 
+ **Exemplo de corpo de requisição**
+ 
+ ```js
+  {
+    tipo : 'fire',
+    descricao : 'Queime uma tarefa e deixe que alguem faça por você',
+    elementos : 20  
+  }
+  ```
