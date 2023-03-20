@@ -2,23 +2,25 @@ package br.com.fiap.GreenHouse.model;
 
 public class Poder {
     
-    private int id;
+    private Long id;
     private int tipo; // Pode ser uma interface ou uma classe TipoPoder ? 
     private String descricao;
     private int elementos;
     
-    public Poder(int id, int tipo, String descricao, int elementos) {
+   
+
+    public Poder(Long id, int tipo, String descricao, int elementos) {
         this.id = id;
         this.tipo = tipo;
         this.descricao = descricao;
         this.elementos = elementos;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
