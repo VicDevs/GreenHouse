@@ -2,14 +2,23 @@ package br.com.fiap.GreenHouse.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Tarefa {
 
-   private Long id;
-   private String nome;
-   private String descricao;
-   private int experiencia;
-   private int idCategoria; 
-   private LocalDate data;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String nome;
+    private String descricao;
+    private int experiencia;
+    private int idCategoria; 
+    private LocalDate data;
 
 
 public Tarefa(Long id, String nome, String descricao, int experiencia, int idCategoria, LocalDate data) {
