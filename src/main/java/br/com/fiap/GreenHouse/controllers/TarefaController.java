@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,26 +16,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.GreenHouse.model.Tarefa;
+import br.com.fiap.GreenHouse.repositories.TarefaRepository;
 
 @RestController
 public class TarefaController {
 
     Logger log = LoggerFactory.getLogger(TarefaController.class);
 
-    List<Tarefa> tarefas = new ArrayList<>();
+    @Autowired
+    TarefaRepository repository;
 
     @GetMapping("/greenhouse/api/tarefa")
     public List<Tarefa> index(){
-        return tarefas;
+        return repository.findAll();
     }
 
-    @GetMapping("/greenhouse/api/tarefa/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Tarefa> show(@PathVariable Long id){
         log.info("Buscar tarefa por id " + id);
-        
-        var tarefaEncontrada = tarefas.stream()
-                                      .filter((t)-> {return t.getId().equals(id);})
-                                      .findFirst();
+        var tarefaEncontrada = repository.findById(id);
 
         if(tarefaEncontrada.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -44,40 +45,34 @@ public class TarefaController {
 
     @PostMapping("/greenhouse/api/tarefa")
     public ResponseEntity<Tarefa> create(@RequestBody Tarefa tarefa){
-        log.info("Cadastrar uma tarefa");
-        tarefa.setId(tarefas.size() + 1l);
-        tarefas.add(tarefa);
+        log.info("Cadastrar uma tarefa " + tarefa);
+        repository.save(tarefa);
         return ResponseEntity.status(HttpStatus.CREATED).body(tarefa);
     }
 
-    @DeleteMapping("/greenhouse/api/tarefa/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Tarefa> delete(@PathVariable Long id){
         log.info("Deletar tarefa por id " + id);
-        var tarefaEncontrada = tarefas.stream()
-                                      .filter((t)-> {return t.getId().equals(id);})
-                                      .findFirst();
+        var tarefaEncontrada = repository.findById(id);
 
         if(tarefaEncontrada.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-        tarefas.remove(tarefaEncontrada.get());
+        repository.delete(tarefaEncontrada.get());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 
-    @PutMapping("/greenhouse/api/tarefa/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<Tarefa> update(@PathVariable Long id, @RequestBody Tarefa tarefa){
         log.info("Atualizar tarefa por id " + id);
-        var tarefaEncontrada = tarefas.stream()
-                                      .filter((t)-> {return t.getId().equals(id);})
-                                      .findFirst();
+        var tarefaEncontrada = repository.findById(id);
 
         if(tarefaEncontrada.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
-        tarefas.remove(tarefaEncontrada.get());
-        tarefa.setId(id);
-        tarefas.add(tarefa);
+        var novaTarefa = tarefaEncontrada.get();
+        BeanUtils.copyProperties(tarefa, novaTarefa,"id");
         return ResponseEntity.ok(tarefa);
     }
     
