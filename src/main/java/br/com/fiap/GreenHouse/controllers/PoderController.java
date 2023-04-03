@@ -1,5 +1,4 @@
 package br.com.fiap.GreenHouse.controllers;
-import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.fiap.GreenHouse.model.Poder;
 import br.com.fiap.GreenHouse.repositories.PoderRepository;
+import jakarta.validation.Valid;
 
 @RestController
+@RequestMapping("greenhouse/api/power")
 public class PoderController {
 
     Logger log = LoggerFactory.getLogger(PoderController.class);
@@ -25,7 +27,7 @@ public class PoderController {
     @Autowired
     PoderRepository repository;
     
-    @GetMapping("/greenhouse/api/power")
+    @GetMapping()
     public List<Poder> index(){
         return repository.findAll();
     }
@@ -41,8 +43,8 @@ public class PoderController {
         return ResponseEntity.ok(poderEncontrado.get());
     }
 
-    @PostMapping("/greenhouse/api/power")
-    public ResponseEntity<Poder> create(@RequestBody Poder poder){
+    @PostMapping()
+    public ResponseEntity<Poder> create(@RequestBody @Valid Poder poder){
         log.info("Cadastrar um poder");
         repository.save(poder);
         return ResponseEntity.status(HttpStatus.CREATED).body(poder);
@@ -62,7 +64,7 @@ public class PoderController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Poder> update(@PathVariable Long id, @RequestBody Poder poder){
+    public ResponseEntity<Poder> update(@PathVariable Long id, @RequestBody @Valid Poder poder){
         log.info("Atualizar poder por id " + id);
         
         var poderEncontrado = repository.findById(id);

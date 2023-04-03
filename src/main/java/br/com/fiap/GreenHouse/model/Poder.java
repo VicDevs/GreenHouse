@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Poder {
@@ -11,8 +13,11 @@ public class Poder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int tipo; // Pode ser uma interface ou uma classe TipoPoder ? 
+    @NotBlank
+    private int tipo;
+    @NotBlank
     private String descricao;
+    @NotNull
     private int elementos;
     
    

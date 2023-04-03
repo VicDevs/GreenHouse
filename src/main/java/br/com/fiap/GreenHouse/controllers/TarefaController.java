@@ -1,5 +1,4 @@
 package br.com.fiap.GreenHouse.controllers;
-import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,12 +12,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.fiap.GreenHouse.model.Tarefa;
 import br.com.fiap.GreenHouse.repositories.TarefaRepository;
+import jakarta.validation.Valid;
 
 @RestController
+@RequestMapping("/greenhouse/api/tarefa")
 public class TarefaController {
 
     Logger log = LoggerFactory.getLogger(TarefaController.class);
@@ -26,7 +28,7 @@ public class TarefaController {
     @Autowired
     TarefaRepository repository;
 
-    @GetMapping("/greenhouse/api/tarefa")
+    @GetMapping()
     public List<Tarefa> index(){
         return repository.findAll();
     }
@@ -43,8 +45,8 @@ public class TarefaController {
         return ResponseEntity.ok(tarefaEncontrada.get());
     }
 
-    @PostMapping("/greenhouse/api/tarefa")
-    public ResponseEntity<Tarefa> create(@RequestBody Tarefa tarefa){
+    @PostMapping()
+    public ResponseEntity<Tarefa> create(@RequestBody @Valid Tarefa tarefa){
         log.info("Cadastrar uma tarefa " + tarefa);
         repository.save(tarefa);
         return ResponseEntity.status(HttpStatus.CREATED).body(tarefa);
@@ -64,7 +66,7 @@ public class TarefaController {
 
 
     @PutMapping("{id}")
-    public ResponseEntity<Tarefa> update(@PathVariable Long id, @RequestBody Tarefa tarefa){
+    public ResponseEntity<Tarefa> update(@PathVariable Long id, @RequestBody @Valid Tarefa tarefa){
         log.info("Atualizar tarefa por id " + id);
         var tarefaEncontrada = repository.findById(id);
 
@@ -75,5 +77,4 @@ public class TarefaController {
         BeanUtils.copyProperties(tarefa, novaTarefa,"id");
         return ResponseEntity.ok(tarefa);
     }
-    
 }
