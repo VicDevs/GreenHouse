@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import br.com.fiap.GreenHouse.model.Tarefa;
 import br.com.fiap.GreenHouse.repositories.TarefaRepository;
@@ -36,13 +37,7 @@ public class TarefaController {
     @GetMapping("{id}")
     public ResponseEntity<Tarefa> show(@PathVariable Long id){
         log.info("Buscar tarefa por id " + id);
-        var tarefaEncontrada = repository.findById(id);
-
-        if(tarefaEncontrada.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        
-        return ResponseEntity.ok(tarefaEncontrada.get());
+        return ResponseEntity.ok(getTarefa(id));
     }
 
     @PostMapping()
@@ -55,12 +50,7 @@ public class TarefaController {
     @DeleteMapping("{id}")
     public ResponseEntity<Tarefa> delete(@PathVariable Long id){
         log.info("Deletar tarefa por id " + id);
-        var tarefaEncontrada = repository.findById(id);
-
-        if(tarefaEncontrada.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-        repository.delete(tarefaEncontrada.get());
+        repository.delete(getTarefa(id));
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -68,13 +58,15 @@ public class TarefaController {
     @PutMapping("{id}")
     public ResponseEntity<Tarefa> update(@PathVariable Long id, @RequestBody @Valid Tarefa tarefa){
         log.info("Atualizar tarefa por id " + id);
-        var tarefaEncontrada = repository.findById(id);
-
-        if(tarefaEncontrada.isEmpty())
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-
-        var novaTarefa = tarefaEncontrada.get();
-        BeanUtils.copyProperties(tarefa, novaTarefa,"id");
+        getTarefa(id);
+        tarefa.setId(id);
+        repository.save(tarefa);
         return ResponseEntity.ok(tarefa);
+    }
+
+    public Tarefa getTarefa(@PathVariable Long id){
+        return repository.findById(id).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tarefa não existente")
+        );
     }
 }

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
 import br.com.fiap.GreenHouse.model.Poder;
 import br.com.fiap.GreenHouse.repositories.PoderRepository;
 import jakarta.validation.Valid;
@@ -34,13 +36,8 @@ public class PoderController {
 
     @GetMapping("{id}")
     public ResponseEntity<Poder> show(@PathVariable Long id){
-        log.info("Buscar Poder por id " + id);
-        var poderEncontrado = repository.findById(id);
-
-        if(poderEncontrado.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.ok(poderEncontrado.get());
+        log.info("Buscar poder por id");
+        return ResponseEntity.ok(getPoder(id));
     }
 
     @PostMapping()
@@ -53,27 +50,23 @@ public class PoderController {
     @DeleteMapping("{id}")
     public ResponseEntity<Poder> delete(@PathVariable Long id){
         log.info("Deletar poder por id " + id);
-        
-        var poderEncontrado = repository.findById(id);
-        
-        if(poderEncontrado.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        repository.delete(poderEncontrado.get());
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        repository.delete(getPoder(id));
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("{id}")
     public ResponseEntity<Poder> update(@PathVariable Long id, @RequestBody @Valid Poder poder){
         log.info("Atualizar poder por id " + id);
-        
-        var poderEncontrado = repository.findById(id);
-        var novoPoder = poderEncontrado.get();
-        BeanUtils.copyProperties(poder, novoPoder, "id");
+        getPoder(id);
+        poder.setId(id);
+        repository.save(poder);
+        return ResponseEntity.ok(poder);
+    }
 
-        repository.save(novoPoder);
-        
-        return ResponseEntity.ok(novoPoder);
+    private Poder getPoder(Long id) {
+        return repository.findById(id).orElseThrow(
+            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Poder não existente")
+        );  
     }
 
 }
